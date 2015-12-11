@@ -12,13 +12,16 @@ Contributed by:
 import RPi.GPIO as GPIO
 
 class RadiationWatch:
-    def __init__(self, radiationPin, noisePin):
+    def __init__(self, radiationPin, noisePin, numbering=GPIO.BCM):
+        """Initialize the Radiation Watch library, specifying the pin numbers
+        for the radiation and noise pin.
+        You can also specify the pin numbering mode (BCM numbering by default)."""
+        GPIO.setmode(numbering)
         self.radiationPin = radiationPin
         self.noisePin = noisePin
 
     def __enter__(self):
         # Init the GPIO context.
-        GPIO.setmode(GPIO.BCM)
         GPIO.setup(self.radiationPin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
         GPIO.setup(self.noisePin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
         # Register local callbacks.

@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 """
 Radiation Watch Pocket Geiger Type 5 library for Raspberry Pi.
 

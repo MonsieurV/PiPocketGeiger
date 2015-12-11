@@ -23,6 +23,12 @@ class RadiationWatch:
         self.noisePin = noisePin
 
     def __enter__(self):
+        return self.setup()
+
+    def __exit__(self, exc_type, exc_value, traceback):
+        self.close()
+
+    def setup(self):
         # Init the GPIO context.
         GPIO.setup(self.radiationPin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
         GPIO.setup(self.noisePin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
@@ -33,7 +39,7 @@ class RadiationWatch:
             callback=self._onNoise)
         return self
 
-    def __exit__(self, exc_type, exc_value, traceback):
+    def close(self):
         GPIO.cleanup()
 
     def _onRadiation(self, channel):

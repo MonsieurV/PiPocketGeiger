@@ -12,6 +12,22 @@ Contributed by:
 - Yoan Tournade <yoan@ytotech.com>
 """
 import RPi.GPIO as GPIO
+import threading
+import math
+import time
+
+# Number of cells of the history array.
+HISTORY_LENGTH = 200
+# Duration of each history array cell, in seconds.
+HISTORY_CELL_DURATION = 6
+# Process period for the statistics, in milliseconds.
+PROCESS_PERIOD = 160
+MAX_CPM_TIME = HISTORY_LENGTH * HISTORY_CELL_DURATION * 1000
+# Magic calibration number from the Arduino lib.
+K_ALPHA = 53.032
+
+def millis():
+    return long(round(time.time() * 1000))
 
 class RadiationWatch:
     def __init__(self, radiationPin, noisePin, numbering=GPIO.BCM):
@@ -21,6 +37,7 @@ class RadiationWatch:
         GPIO.setmode(numbering)
         self.radiationPin = radiationPin
         self.noisePin = noisePin
+        self.mutex = threading.Lock()
 
     def __enter__(self):
         return self.setup()
@@ -29,6 +46,15 @@ class RadiationWatch:
         self.close()
 
     def setup(self):
+        # Initialize the statistics variables.
+        self.radiationCount = 0
+        self.noiseCount = 0
+        self.cpm = 0
+        self.cpmHistory = [0] * HISTORY_LENGTH
+        self.historyIndex = 0
+        self.lastTime = millis()
+        self.duration = 0
+        self.lastShift = None
         # Init the GPIO context.
         GPIO.setup(self.radiationPin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
         GPIO.setup(self.noisePin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
@@ -37,18 +63,73 @@ class RadiationWatch:
             callback=self._onRadiation)
         GPIO.add_event_detect(self.noisePin, GPIO.FALLING,
             callback=self._onNoise)
+        # Enable the timer for processing the statistics periodically.
+        self._enableTimer()
         return self
 
     def close(self):
         GPIO.cleanup()
+        with self.mutex:
+            self.timer.cancel()
 
     def _onRadiation(self, channel):
         print("Ray appeared!")
+        with self.mutex:
+            self.radiationCount += 1
 
     def _onNoise(self, channel):
         print("Vibration! Stop moving!")
+        with self.mutex:
+            self.noiseCount += 1
+
+    def _enableTimer(self):
+        self.timer = threading.Timer(
+            PROCESS_PERIOD / 1000.0, self._processStatistics)
+        self.timer.start()
+
+    def status(self):
+        """Return current readings, as a tuple:
+            (duration, cpm, uSvh, uSvhError).
+        with:
+            duration, the duration of the measurements, in milliseconds;
+            cpm, the radiation count by minute;
+            uSvh, the radiation dose, exprimed in Sievert per house (uSv/h);
+            uSvhError, the incertitude for the radiation dose."""
+        minutes = min(self.duration, MAX_CPM_TIME) / 1000 / 60.0
+        cpm = self.cpm / minutes if minutes > 0 else 0
+        return (
+            self.duration,
+            round(cpm, 2),
+            round(cpm / K_ALPHA, 3),
+            round(math.sqrt(self.cpm) / minutes / K_ALPHA if minutes > 0 else 0, 3)
+            )
+
+    def _processStatistics(self):
+        with self.mutex:
+            currentTime = millis()
+            if self.noiseCount == 0:
+                durationSeconds = int(self.duration / 1000)
+                if durationSeconds % HISTORY_CELL_DURATION == 0 \
+                        and self.lastShift != durationSeconds:
+                    # Shift a cell in the history array each HISTORY_CELL_DURATION.
+                    self.lastShift = durationSeconds
+                    self.historyIndex += 1
+                    if self.historyIndex >= HISTORY_LENGTH:
+                        self.historyIndex = 0
+                    if self.cpm and self.cpmHistory[self.historyIndex] > 0:
+                        self.cpm -= self.cpmHistory[self.historyIndex]
+                    self.cpmHistory[self.historyIndex] = 0
+                self.cpmHistory[self.historyIndex] += self.radiationCount
+                self.cpm += self.radiationCount
+                self.duration += abs(currentTime - self.lastTime)
+            self.lastTime = millis()
+            self.radiationCount = 0
+            self.noiseCount = 0
+            if self.timer:
+                self._enableTimer()
 
 if __name__ == "__main__":
     with RadiationWatch(24, 23) as radiationWatch:
         while 1:
-            pass
+            print(radiationWatch.status())
+            time.sleep(5)

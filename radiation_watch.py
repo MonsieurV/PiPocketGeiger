@@ -91,14 +91,14 @@ class RadiationWatch:
         """Return current readings, as a tuple:
             (duration, cpm, uSvh, uSvhError).
         with:
-            duration, the duration of the measurements, in milliseconds;
+            duration, the duration of the measurements, in seconds;
             cpm, the radiation count by minute;
             uSvh, the radiation dose, exprimed in Sievert per house (uSv/h);
             uSvhError, the incertitude for the radiation dose."""
         minutes = min(self.duration, MAX_CPM_TIME) / 1000 / 60.0
         cpm = self.cpm / minutes if minutes > 0 else 0
         return (
-            self.duration,
+            round(self.duration / 1000.0, 2),
             round(cpm, 2),
             round(cpm / K_ALPHA, 3),
             round(math.sqrt(self.cpm) / minutes / K_ALPHA if minutes > 0 else 0, 3)

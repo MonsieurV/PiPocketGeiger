@@ -27,7 +27,7 @@ MAX_CPM_TIME = HISTORY_LENGTH * HISTORY_CELL_DURATION * 1000
 K_ALPHA = 53.032
 
 def millis():
-    return long(round(time.time() * 1000))
+    return int(round(time.time() * 1000))
 
 class RadiationWatch:
     def __init__(self, radiationPin, noisePin, numbering=GPIO.BCM):
@@ -38,6 +38,33 @@ class RadiationWatch:
         self.radiationPin = radiationPin
         self.noisePin = noisePin
         self.mutex = threading.Lock()
+        self.radiationCallback = None
+        self.noiseCallback = None
+
+    def status(self):
+        """Return current readings, as a tuple:
+            (duration, cpm, uSvh, uSvhError).
+        with:
+            duration, the duration of the measurements, in seconds;
+            cpm, the radiation count by minute;
+            uSvh, the radiation dose, exprimed in Sievert per house (uSv/h);
+            uSvhError, the incertitude for the radiation dose."""
+        minutes = min(self.duration, MAX_CPM_TIME) / 1000 / 60.0
+        cpm = self.cpm / minutes if minutes > 0 else 0
+        return (
+            round(self.duration / 1000.0, 2),
+            round(cpm, 2),
+            round(cpm / K_ALPHA, 3),
+            round(math.sqrt(self.cpm) / minutes / K_ALPHA if minutes > 0 else 0, 3)
+            )
+
+    def registerRadiationCallback(self, callback):
+        """Register a function that will be called on radiation occurrence. """
+        self.radiationCallback = callback
+
+    def registerNoiseCallback(self, callback):
+        """Register a function that will be called on noise occurrence. """
+        self.noiseCallback = callback
 
     def __enter__(self):
         return self.setup()
@@ -73,36 +100,21 @@ class RadiationWatch:
             self.timer.cancel()
 
     def _onRadiation(self, channel):
-        print("Ray appeared!")
         with self.mutex:
             self.radiationCount += 1
+        if self.radiationCallback:
+            self.radiationCallback()
 
     def _onNoise(self, channel):
-        print("Vibration! Stop moving!")
         with self.mutex:
             self.noiseCount += 1
+        if self.noiseCallback:
+            self.noiseCallback()
 
     def _enableTimer(self):
         self.timer = threading.Timer(
             PROCESS_PERIOD / 1000.0, self._processStatistics)
         self.timer.start()
-
-    def status(self):
-        """Return current readings, as a tuple:
-            (duration, cpm, uSvh, uSvhError).
-        with:
-            duration, the duration of the measurements, in seconds;
-            cpm, the radiation count by minute;
-            uSvh, the radiation dose, exprimed in Sievert per house (uSv/h);
-            uSvhError, the incertitude for the radiation dose."""
-        minutes = min(self.duration, MAX_CPM_TIME) / 1000 / 60.0
-        cpm = self.cpm / minutes if minutes > 0 else 0
-        return (
-            round(self.duration / 1000.0, 2),
-            round(cpm, 2),
-            round(cpm / K_ALPHA, 3),
-            round(math.sqrt(self.cpm) / minutes / K_ALPHA if minutes > 0 else 0, 3)
-            )
 
     def _processStatistics(self):
         with self.mutex:
@@ -129,7 +141,15 @@ class RadiationWatch:
                 self._enableTimer()
 
 if __name__ == "__main__":
+    def onRadiation():
+        print("Ray appeared!")
+
+    def onNoise():
+        print("Vibration! Stop moving!")
+
     with RadiationWatch(24, 23) as radiationWatch:
+        radiationWatch.registerRadiationCallback(onRadiation)
+        radiationWatch.registerNoiseCallback(onNoise)
         while 1:
             print(radiationWatch.status())
             time.sleep(5)

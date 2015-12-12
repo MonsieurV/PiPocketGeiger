@@ -3,8 +3,10 @@
 """
 Log radiation levels to a Google Docs.
 
-Replace the constants by your Google account credentials to make it work.
-Requires the gspread package: https://github.com/burnash/gspread
+Requires the gspread package:
+    https://github.com/burnash/gspread
+You'll also need a Google Signed Credentials to access your Google account:
+    http://gspread.readthedocs.org/en/latest/oauth2.html
 
 Released under MIT License. See LICENSE file.
 

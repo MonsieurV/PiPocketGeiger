@@ -21,7 +21,7 @@ import json
 from oauth2client.client import SignedJwtAssertionCredentials
 
 # Google Docs account credentials.
-keys = json.load(open('gdocs_credentials_file.json'))
+keys = json.load(open('gdocs-credentials-file.json'))
 scope = ['https://spreadsheets.google.com/feeds']
 credentials = SignedJwtAssertionCredentials(keys['client_email'],
 	keys['private_key'].encode(), scope)
@@ -37,15 +37,15 @@ if __name__ == "__main__":
         while 1:
             time.sleep(LOGGING_PERIOD)
             try:
-                status = radiationWatch.status()
-                print("Uploading... {0}".format(status))
+                readings = radiationWatch.status()
+                print("Uploading... {0}".format(readings))
                 gspread.authorize(credentials).open(
                     GDOCS_SPREADSHEET_NAME).sheet1.append_row((
                         datetime.datetime.now().strftime('%d/%m/%Y %H:%M:00'),
-                        status[0],
-                        status[1],
-                        status[2],
-                        status[3]))
+                        readings[0],
+                        readings[1],
+                        readings[2],
+                        readingsgdocs-credentials-file[3]))
                 print("Ok.")
             except Exception as e:
                 print(e)

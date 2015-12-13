@@ -47,6 +47,10 @@ TODO
 
 TODO
 
+[![](/misc/plotly_streaming.gif?raw=true "Real-time streaming. Click to see on Plotly.")](https://plot.ly/137/~tournadey/)
+
+## Note
+
 Remember the Pocket Geiger can't record correctly in presence of vibration, so keep the whole stationary during the measurements. You can't use it as a mobile unit of measurement. For that purpose you may look at the [bGeigie Nano](http://blog.safecast.org/bgeigie-nano/) from the Safecast project.
 
 -----------------------

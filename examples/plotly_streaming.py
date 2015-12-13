@@ -3,7 +3,7 @@
 """
 Streaming radiation levels on https://plot.ly.
 
-Requires the plotly package and your credentials:
+Require the plotly package and your credentials:
     https://plot.ly/python/user-guide/#Step-1
 
 Released under MIT License. See LICENSE file.
@@ -41,7 +41,7 @@ if __name__ == "__main__":
                 data=Data([
                     Scatter(
                         x=[], y=[],
-                        mode='lines+markers',
+                        mode='lines',
                         stream=Stream(token=STREAMING_TOKEN))])),
             filename=PLOT_TITLE)
         print("Plotly graph URL: {0}".format(url))

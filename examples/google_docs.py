@@ -3,7 +3,7 @@
 """
 Log radiation levels to a Google Docs.
 
-Requires the gspread and oauth2client packages:
+Require the gspread and oauth2client packages:
     https://github.com/burnash/gspread
     https://github.com/google/oauth2client
 You'll also need a Google Signed Credentials to access your Google account:

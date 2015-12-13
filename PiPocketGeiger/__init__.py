@@ -43,20 +43,19 @@ class RadiationWatch:
         self.noiseCallback = None
 
     def status(self):
-        """Return current readings, as a tuple:
-            (duration, cpm, uSvh, uSvhError).
-        with:
-            duration, the duration of the measurements, in seconds;
-            cpm, the radiation count by minute;
-            uSvh, the radiation dose, exprimed in Sievert per house (uSv/h);
-            uSvhError, the incertitude for the radiation dose."""
+        """Return current readings, as a dictionary with:
+            duration -- the duration of the measurements, in seconds;
+            cpm -- the radiation count by minute;
+            uSvh -- the radiation dose, exprimed in Sievert per house (uSv/h);
+            uSvhError -- the incertitude for the radiation dose."""
         minutes = min(self.duration, MAX_CPM_TIME) / 1000 / 60.0
         cpm = self.cpm / minutes if minutes > 0 else 0
-        return (
-            round(self.duration / 1000.0, 2),
-            round(cpm, 2),
-            round(cpm / K_ALPHA, 3),
-            round(math.sqrt(self.cpm) / minutes / K_ALPHA if minutes > 0 else 0, 3)
+        return dict(
+            duration=round(self.duration / 1000.0, 2),
+            cpm=round(cpm, 2),
+            uSvh=round(cpm / K_ALPHA, 3),
+            uSvhError=round(math.sqrt(self.cpm) / minutes / K_ALPHA, 3) \
+                if minutes > 0 else 0
             )
 
     def registerRadiationCallback(self, callback):

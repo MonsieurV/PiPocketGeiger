@@ -40,12 +40,12 @@ if __name__ == "__main__":
                 readings = radiationWatch.status()
                 print("Uploading... {0}".format(readings))
                 gspread.authorize(credentials).open(
-                    GDOCS_SPREADSHEET_NAME).sheet1.append_row((
+                    GDOCS_SPREADSHEET_NAME).sheet1.append_row(
                         datetime.datetime.now().strftime('%d/%m/%Y %H:%M:00'),
-                        readings[0],
-                        readings[1],
-                        readings[2],
-                        readingsgdocs-credentials-file[3]))
+                        readings['duration'],
+                        readings['cpm'],
+                        readings['uSvh'],
+                        readings['uSvhError'])
                 print("Ok.")
             except Exception as e:
                 print(e)

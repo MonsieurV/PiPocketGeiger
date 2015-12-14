@@ -27,7 +27,7 @@ PLOT_TITLE = 'Radiation dose (Gamma rays)'
 STREAMING_PERIOD = 5
 
 if __name__ == "__main__":
-    print("Streaming to Plotly each {0} seconds".format(STREAMING_PERIOD))
+    print("Streaming to Plotly each {0} seconds.".format(STREAMING_PERIOD))
     stream = None
     try:
         radiationWatch = RadiationWatch(24, 23).setup()
@@ -50,7 +50,7 @@ if __name__ == "__main__":
         while 1:
             readings = radiationWatch.status()
             x = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')
-            print("Streaming... {0}".format([x, readings['uSvh']]))
+            print("Streaming... {0}.".format([x, readings['uSvh']]))
             stream.write(dict(x=x, y=readings['uSvh']))
             time.sleep(STREAMING_PERIOD)
     except Exception as e:

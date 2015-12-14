@@ -21,7 +21,7 @@ if __name__ == "__main__":
         subprocess.Popen(['aplay', 'click.wav'])
 
     with RadiationWatch(24, 23) as radiationWatch:
-        print("Waiting for gamma rays to hit the Pocket Geiger")
+        print("Waiting for gamma rays to hit the Pocket Geiger.")
         radiationWatch.registerRadiationCallback(onRadiation)
         while 1:
             # Do not keep the CPU busy for nothing: sleep.

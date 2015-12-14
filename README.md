@@ -33,7 +33,7 @@ with RadiationWatch(24, 23) as radiationWatch:
   pass # Do something with the lib.
 ```
 
-Even if the Pocket Geiger can handle voltage between 3V and 9V, the [RPi GPIO](https://www.raspberrypi.org/documentation/hardware/raspberrypi/gpio/README.md) only works on 3.3V level, so **do NOT supply 5V** to your Pocket Geiger, but 3.3V instead.
+Even if the Pocket Geiger can handle voltage between 3V and 9V, the [RPi GPIO](https://www.raspberrypi.org/documentation/hardware/raspberrypi/gpio/README.md) only works on 3.3V levels, so **do NOT supply 5V** to your Pocket Geiger, but 3.3V instead.
 
 [Pocket Geiger Type 5 interface specification](http://www.radiation-watch.co.uk/uploads/5t.pdf).
 
@@ -74,11 +74,11 @@ As a more ellaborate idea, you can stream the data directly to Plotly, allowing 
 
 In the same vein, you can [upload reading to a Google Docs](https://github.com/MonsieurV/PiPocketGeiger/blob/master/examples/google_docs.py) or [broadcast on Twitter](https://github.com/MonsieurV/PiPocketGeiger/blob/master/examples/twitter.py).
 
-Yes, with a Raspberry Pi, Python and an internet access, there's not so much limits to what you can pretend.
+Yes, with a Raspberry Pi, Python and an internet access, there's not so much limits to what you can pretend!
 
 ## Note
 
-Remember the Pocket Geiger can't record correctly in presence of vibration, so keep the whole stationary during the measurements. You can't use it as a mobile unit of measurement. For that purpose you may look at the [bGeigie Nano](http://blog.safecast.org/bgeigie-nano/) from the Safecast project.
+Remember the Pocket Geiger can't record correctly in presence of vibration. For a more precise and mobile oriented unit, you may look at the [bGeigie Nano](http://blog.safecast.org/bgeigie-nano/) from the Safecast project.
 
 -----------------------
 

@@ -18,9 +18,9 @@ import plotly.tools as tls
 from plotly.graph_objs import Scatter, Data, Stream, Figure, Layout
 
 # Plotly credentials.
-USERNAME = 'tournadey'
-API_KEY = 'p02daxcdh5'
-STREAMING_TOKEN = 'xp0xubjz9n'
+USERNAME = 'your_plotly_username'
+API_KEY = 'your_api_key'
+STREAMING_TOKEN = 'a_streaming_token'
 PLOT_TITLE = 'Radiation dose (Gamma rays)'
 
 # Period for streaming readings to Plotly, in seconds.

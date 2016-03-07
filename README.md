@@ -6,7 +6,7 @@ A Raspberry Pi library to interface with the [Radiation Watch Pocket Geiger coun
 
 The library monitors the Pocket Geiger through interrupts - using the [RPi.GPIO](https://pypi.python.org/pypi/RPi.GPIO) package - and processes the CPM and hourly [Sievert dose](https://en.wikipedia.org/wiki/Sievert).
 
-Learn more about the Pocket Geiger counter on the Radiation Watch [FAQ](http://www.radiation-watch.co.uk/faqs) and on [our blog](https://blog.ytotech.com/2015/12/06/radiation-watch-arduino/). Actually it is not a proper Geiger-Müller counter, but a Photodiode PIN sensor that can effectively counts gamma rays.
+Learn more about the Pocket Geiger counter on the Radiation Watch [FAQ](http://www.radiation-watch.co.uk/faqs) and on [our blog](https://blog.ytotech.com/2016/03/04/radiation-watch-raspberry/). Actually it is not a proper Geiger-Müller counter, but a Photodiode PIN sensor that can effectively counts gamma rays.
 
 ## Getting started
 
@@ -91,7 +91,7 @@ Remember the Pocket Geiger can't record correctly in presence of vibration. For 
 
 -----------------------
 
-Like it? Not so much? [Tell us](mailto:yoan@ytotech.com).
+Like it? Not so much? [Simply tell us](mailto:yoan@ytotech.com). Don't forget to check out [our blog](http://blog.ytotech.com)! :-)
 
 Happy hacking!
 

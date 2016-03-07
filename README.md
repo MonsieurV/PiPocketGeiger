@@ -26,6 +26,8 @@ The Pocket Geiger must be wired to the GPIO ports of the Raspberry Pi. Refer to 
 
 For exemple you can wire the radiation and the noise pin on respectively the `GPIO24` and `GPIO23` of your Raspberry Pi.
 
+![](/misc/wiring.png?raw=true "Wiring of the Pocket Geiger and Raspberry Pi B+")
+
 The pin used are specified at the creation of the library object:
 
 ```

@@ -26,7 +26,7 @@ from setuptools import setup
 
 setup(
     name='PiPocketGeiger',
-    version='0.1a',
+    version='0.2',
     url='https://github.com/MonsieurV/PiPocketGeiger',
     license='MIT',
     author='Yoan Tournade',

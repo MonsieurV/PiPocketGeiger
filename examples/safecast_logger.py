@@ -18,7 +18,7 @@ import datetime
 import SafecastPy
 
 # Safecast API key.
-API_KEY = 'your_api_key'
+API_KEY = 'our_api_key'
 # Log on production or development instance.
 SAFECAST_INSTANCE = SafecastPy.DEVELOPMENT_API_URL
 # Radiation Watch Pocket Geiger is registered:
@@ -46,7 +46,7 @@ if __name__ == "__main__":
     with RadiationWatch(24, 23) as radiationWatch:
         while 1:
             # Sleep first so we can sample enough data to stabilize results.
-            time.sleep(LOGGING_PERIOD)
+            time.sleep(LOGGING_PERIOD * 60)
             try:
                 readings = radiationWatch.status()
                 print("Logging... {0}.".format(readings))

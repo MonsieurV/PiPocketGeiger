@@ -18,7 +18,7 @@ import datetime
 import SafecastPy
 
 # Safecast API key.
-API_KEY = 'our_api_key'
+API_KEY = 'your_api_key'
 # Log on production or development instance.
 SAFECAST_INSTANCE = SafecastPy.DEVELOPMENT_API_URL
 # Radiation Watch Pocket Geiger is registered:
@@ -28,13 +28,15 @@ SAFECAST_INSTANCE = SafecastPy.DEVELOPMENT_API_URL
 #   https://api.safecast.org/en-US/devices/145
 DEVICE_ID = 90
 
-# Your location name.
-MY_LOCATION_NAME = "(A Rue du Grand Ferré, Compiègne, France)"
 # Your exact location.
 MY_LOCATION = {
     'latitude': 49.418683,
     'longitude': 2.823469
 }
+# Your location name. Can be None.
+MY_LOCATION_NAME = "(A Rue du Grand Ferré, Compiègne, France)"
+# The height of the sensor from the ground, in centimeters. Can be None.
+HEIGHT = 100
 
 # Period for publishing on Safecast API, in minutes.
 # Five minutes is fine for background monitoring.
@@ -50,15 +52,19 @@ if __name__ == "__main__":
             try:
                 readings = radiationWatch.status()
                 print("Logging... {0}.".format(readings))
-                measurement = safecast.add_measurement(json={
+                payload = {
                     'latitude': MY_LOCATION['latitude'],
                     'longitude': MY_LOCATION['longitude'],
                     'value': readings['uSvh'],
                     'unit': SafecastPy.UNIT_USV,
                     'captured_at': datetime.datetime.utcnow().isoformat() + '+00:00',
                     'device_id': DEVICE_ID,
-                    'location_name': MY_LOCATION_NAME
-                })
+                }
+                if MY_LOCATION_NAME:
+                    payload['location_name'] = MY_LOCATION_NAME
+                if HEIGHT:
+                    payload['height']: HEIGHT
+                measurement = safecast.add_measurement(json=payload)
                 print("Ok. Measurement published with id {0}".format(
                     measurement['id']))
             except Exception as e:

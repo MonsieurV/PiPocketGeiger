@@ -81,7 +81,9 @@ As a more ellaborate idea, you can stream the data directly to Plotly, allowing 
 
 [![](/misc/plotly_streaming.gif?raw=true "Real-time streaming. Click to see on Plotly.")](https://plot.ly/137/~tournadey/)
 
-In the same vein, you can [upload reading to a Google Docs](https://github.com/MonsieurV/PiPocketGeiger/blob/master/examples/google_docs.py) or [broadcast on Twitter](https://github.com/MonsieurV/PiPocketGeiger/blob/master/examples/twitter.py).
+In the same vein, you can [upload reading to a Google Docs](https://github.com/MonsieurV/PiPocketGeiger/blob/master/examples/google_docs.py) or also [broadcast on Twitter](https://github.com/MonsieurV/PiPocketGeiger/blob/master/examples/twitter.py).
+
+Finally if you want to contribute to an open-data initiative you can [publish your measurements](https://github.com/MonsieurV/PiPocketGeiger/blob/master/examples/safecast.py) to [the Safecast API](http://blog.safecast.org/). More info on the [SafecastPy lib repo](https://github.com/MonsieurV/SafecastPy).
 
 Yes, with a Raspberry Pi, Python and an internet access, there's not so much limits to what you can pretend!
 

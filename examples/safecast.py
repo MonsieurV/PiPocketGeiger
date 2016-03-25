@@ -21,12 +21,6 @@ import SafecastPy
 API_KEY = 'your_api_key'
 # Log on production or development instance.
 SAFECAST_INSTANCE = SafecastPy.DEVELOPMENT_API_URL
-# Radiation Watch Pocket Geiger is registered:
-# - As device id 90 on developement instance
-#   http://dev.safecast.org/en-US/devices/90
-# - As device id 145 on production instance
-#   https://api.safecast.org/en-US/devices/145
-DEVICE_ID = 90
 
 # Your exact location.
 MY_LOCATION = {
@@ -45,6 +39,12 @@ LOGGING_PERIOD = 5
 if __name__ == "__main__":
     print("Logging each {0} minutes.".format(LOGGING_PERIOD))
     safecast = SafecastPy.SafecastPy(api_key=API_KEY, api_url=SAFECAST_INSTANCE)
+    # Declare the Device used. If it already exists the API will just ignore it.
+    device_id = safecast.add_device(json={
+	    'manufacturer': 'Radiation Watch',
+	    'model': 'Pocket Geiger Type 5',
+	    'sensor': 'FirstSensor X100-7 SMD'
+	}).get('id')
     with RadiationWatch(24, 23) as radiationWatch:
         while 1:
             # Sleep first so we can sample enough data to stabilize results.
@@ -58,7 +58,7 @@ if __name__ == "__main__":
                     'value': readings['uSvh'],
                     'unit': SafecastPy.UNIT_USV,
                     'captured_at': datetime.datetime.utcnow().isoformat() + '+00:00',
-                    'device_id': DEVICE_ID,
+                    'device_id': device_id,
                 }
                 if MY_LOCATION_NAME:
                     payload['location_name'] = MY_LOCATION_NAME

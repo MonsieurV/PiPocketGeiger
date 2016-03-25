@@ -63,7 +63,7 @@ if __name__ == "__main__":
                 if MY_LOCATION_NAME:
                     payload['location_name'] = MY_LOCATION_NAME
                 if HEIGHT:
-                    payload['height']: HEIGHT
+                    payload['height'] = HEIGHT
                 measurement = safecast.add_measurement(json=payload)
                 print("Ok. Measurement published with id {0}".format(
                     measurement['id']))

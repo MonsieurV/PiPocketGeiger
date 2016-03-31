@@ -24,8 +24,8 @@ SAFECAST_INSTANCE = SafecastPy.DEVELOPMENT_API_URL
 
 # Your exact location.
 MY_LOCATION = {
-    'latitude': 49.418683,
-    'longitude': 2.823469
+    'latitude': '49.418683',
+    'longitude': '2.823469'
 }
 # Your location name. Can be None.
 MY_LOCATION_NAME = "(A Rue du Grand Ferré, Compiègne, France)"

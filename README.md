@@ -110,9 +110,7 @@ Happy hacking!
 
 
 
-1. The examples are for Python 2.7. For Python 3, change the using statement to: ```
-from PiPocketGeiger3 import RadiationWatch
-```
+1. The examples are for Python 2.7. For Python 3, change the using statement to: ```from PiPocketGeiger3 import RadiationWatch```
 
 2. The code examples show the use of the "with" statement. If your code creates a RadiationWatch object without using a "with" statement then you must call the setup() method right after creating the object and call the close() method to destroy the object.
 

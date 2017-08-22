@@ -15,10 +15,19 @@ Learn more about the Pocket Geiger counter on the Radiation Watch [FAQ](http://w
 Using pip:
 
 ```
-pip install PiPocketGeiger
+sudo pip install PiPocketGeiger
 ```
 
 [PiPocketGeiger on Pypi](https://pypi.python.org/pypi/PiPocketGeiger/).
+
+### Installing the library for Python3
+
+Using pip:
+
+```
+sudo pip3 install git+https://github.com/richteel/PiPocketGeiger
+```
+
 
 ### Wiring
 
@@ -96,6 +105,16 @@ Remember the Pocket Geiger can't record correctly in presence of vibration. For 
 Like it? Not so much? [Simply tell us](mailto:yoan@ytotech.com). Don't forget to check out [our blog](http://blog.ytotech.com)! :-)
 
 Happy hacking!
+
+### Notes regarding the Examples
+
+
+
+1. The examples are for Python 2.7. For Python 3, change the using statement to: ```
+from PiPocketGeiger3 import RadiationWatch
+```
+
+2. The code examples show the use of the "with" statement. If your code creates a RadiationWatch object without using a "with" statement then you must call the setup() method right after creating the object and call the close() method to destroy the object.
 
 ### Credits
 

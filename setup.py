@@ -20,25 +20,46 @@ Usage
 
 See GitHub repository for complete documentation.
 """
+import sys
 import re
 import ast
 from setuptools import setup
 
-setup(
-    name='PiPocketGeiger',
-    version='0.2',
-    url='https://github.com/MonsieurV/PiPocketGeiger',
-    license='MIT',
-    author='Yoan Tournade',
-    author_email='yoan@ytotech.com',
-    description='A library for monitoring radiation with the Radiation Watch '
-                'Pocket Geiger.',
-    long_description=__doc__,
-    packages=['PiPocketGeiger'],
-    include_package_data=True,
-    zip_safe=True,
-    platforms='any',
-    install_requires=[
-        'RPi.GPIO>=0.5.0a',
-    ]
-)
+if sys.version_info.major < 3:
+    setup(
+        name='PiPocketGeiger',
+        version='0.3',
+        url='https://github.com/richteel/PiPocketGeiger',
+        license='MIT',
+        author='Yoan Tournade',
+        author_email='yoan@ytotech.com',
+        description='A library for monitoring radiation with the Radiation Watch '
+                    'Pocket Geiger.',
+        long_description=__doc__,
+        packages=['PiPocketGeiger'],
+        include_package_data=True,
+        zip_safe=True,
+        platforms='any',
+        install_requires=[
+            'RPi.GPIO>=0.5.0a',
+        ]
+    )
+else:
+    setup(
+        name='PiPocketGeiger',
+        version='0.3',
+        url='https://github.com/richteel/PiPocketGeiger',
+        license='MIT',
+        author='Yoan Tournade',
+        author_email='yoan@ytotech.com',
+        description='A library for monitoring radiation with the Radiation Watch '
+                    'Pocket Geiger.',
+        long_description=__doc__,
+        packages=['PiPocketGeiger3'],
+        include_package_data=True,
+        zip_safe=True,
+        platforms='any',
+        install_requires=[
+            'RPi.GPIO>=0.5.0a',
+        ]
+    )

@@ -107,13 +107,13 @@ class RadiationWatch(object):
         with self.mutex:
             self.timer.cancel()
 
-    def _onRadiation(self):
+    def _onRadiation(self, _channel):
         with self.mutex:
             self.radiationCount += 1
         if self.radiationCallback:
             self.radiationCallback()
 
-    def _onNoise(self):
+    def _onNoise(self, _channel):
         with self.mutex:
             self.noiseCount += 1
         if self.noiseCallback:

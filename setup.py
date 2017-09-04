@@ -40,5 +40,11 @@ setup(
     platforms='any',
     install_requires=[
         'RPi.GPIO>=0.5.0a',
-    ]
+    ],
+    extras_require={
+        'dev': [
+            'flake8',
+            'pylint'
+        ]
+    }
 )

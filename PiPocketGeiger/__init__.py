@@ -11,10 +11,10 @@ Contributed by:
 - Radiation-watch.org <http://www.radiation-watch.org/>
 - Yoan Tournade <yoan@ytotech.com>
 """
-import RPi.GPIO as GPIO
 import threading
 import math
 import time
+import RPi.GPIO as GPIO
 __all__ = ['RadiationWatch']
 
 # Number of cells of the history array.
@@ -27,14 +27,17 @@ MAX_CPM_TIME = HISTORY_LENGTH * HISTORY_CELL_DURATION * 1000
 # Magic calibration number from the Arduino lib.
 K_ALPHA = 53.032
 
+
 def millis():
     return int(round(time.time() * 1000))
 
-class RadiationWatch:
+
+class RadiationWatch(object):
     def __init__(self, radiationPin, noisePin, numbering=GPIO.BCM):
         """Initialize the Radiation Watch library, specifying the pin numbers
         for the radiation and noise pin.
-        You can also specify the pin numbering mode (BCM numbering by default)."""
+        You can also specify the pin numbering mode (BCM numbering by
+        default)."""
         GPIO.setmode(numbering)
         self.radiationPin = radiationPin
         self.noisePin = noisePin
@@ -54,9 +57,9 @@ class RadiationWatch:
             duration=round(self.duration / 1000.0, 2),
             cpm=round(cpm, 2),
             uSvh=round(cpm / K_ALPHA, 3),
-            uSvhError=round(math.sqrt(self.cpm) / minutes / K_ALPHA, 3) \
-                if minutes > 0 else 0
-            )
+            uSvhError=round(math.sqrt(self.cpm) / minutes / K_ALPHA, 3)
+            if minutes > 0 else 0
+        )
 
     def registerRadiationCallback(self, callback):
         """Register a function that will be called on radiation occurrence. """
@@ -86,10 +89,16 @@ class RadiationWatch:
         GPIO.setup(self.radiationPin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
         GPIO.setup(self.noisePin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
         # Register local callbacks.
-        GPIO.add_event_detect(self.radiationPin, GPIO.FALLING,
-            callback=self._onRadiation)
-        GPIO.add_event_detect(self.noisePin, GPIO.FALLING,
-            callback=self._onNoise)
+        GPIO.add_event_detect(
+            self.radiationPin,
+            GPIO.FALLING,
+            callback=self._onRadiation
+        )
+        GPIO.add_event_detect(
+            self.noisePin,
+            GPIO.FALLING,
+            callback=self._onNoise
+        )
         # Enable the timer for processing the statistics periodically.
         self._enableTimer()
         return self
@@ -99,13 +108,13 @@ class RadiationWatch:
         with self.mutex:
             self.timer.cancel()
 
-    def _onRadiation(self, channel):
+    def _onRadiation(self):
         with self.mutex:
             self.radiationCount += 1
         if self.radiationCallback:
             self.radiationCallback()
 
-    def _onNoise(self, channel):
+    def _onNoise(self):
         with self.mutex:
             self.noiseCount += 1
         if self.noiseCallback:
@@ -123,7 +132,8 @@ class RadiationWatch:
                 durationSeconds = int(self.duration / 1000)
                 if durationSeconds % HISTORY_CELL_DURATION == 0 \
                         and self.lastShift != durationSeconds:
-                    # Shift a cell in the history array each HISTORY_CELL_DURATION.
+                    # Shift a cell in the history array each
+                    # HISTORY_CELL_DURATION.
                     self.lastShift = durationSeconds
                     self.historyIndex += 1
                     if self.historyIndex >= HISTORY_LENGTH:
@@ -139,6 +149,7 @@ class RadiationWatch:
             self.noiseCount = 0
             if self.timer:
                 self._enableTimer()
+
 
 if __name__ == "__main__":
     def onRadiation():

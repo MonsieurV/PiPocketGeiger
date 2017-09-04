@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
 Radiation Watch Pocket Geiger Type 5 library for Raspberry Pi.
@@ -59,7 +58,7 @@ class RadiationWatch(object):
             uSvh=round(cpm / K_ALPHA, 3),
             uSvhError=round(math.sqrt(self.cpm) / minutes / K_ALPHA, 3)
             if minutes > 0 else 0
-        )
+            )
 
     def registerRadiationCallback(self, callback):
         """Register a function that will be called on radiation occurrence. """

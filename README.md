@@ -8,19 +8,19 @@ The library monitors the Pocket Geiger through interrupts - using the [RPi.GPIO]
 
 Learn more about the Pocket Geiger counter on the Radiation Watch [FAQ](http://www.radiation-watch.co.uk/faqs) and on [our blog](https://blog.ytotech.com/2016/03/04/radiation-watch-raspberry/). Actually it is not a proper Geiger-Müller counter, but a Photodiode PIN sensor that can effectively counts gamma rays.
 
-## Getting started
+# Getting started
 
-### Install the library
+## Install the library
 
 Using pip:
 
 ```
-pip install PiPocketGeiger
+sudo pip install PiPocketGeiger
 ```
 
 [PiPocketGeiger on Pypi](https://pypi.python.org/pypi/PiPocketGeiger/).
 
-### Wiring
+## Wiring
 
 The Pocket Geiger must be wired to the GPIO ports of the Raspberry Pi. Refer to the GPIO pin specification of your RPi revision.
 
@@ -46,7 +46,30 @@ Even if the Pocket Geiger can handle voltage between 3V and 9V, the [RPi GPIO](h
 
 [Pocket Geiger Type 5 interface specification](http://www.radiation-watch.co.uk/uploads/5t.pdf).
 
-### Getting readings
+## Initialize the library
+
+You can either use the `with` statement to initialize an instance of the library. It will automatically bootstrap the instance and properly close it when existing the `with` block.
+
+```
+with RadiationWatch(24, 23) as radiationWatch:
+    # Do something with the lib.
+    print(radiationWatch.status())
+```
+
+You can also manage yourself the lifecycle of the instance, using `setup()` and `close()`.
+
+```
+# Create an instance.
+radiationWatch = RadiationWatch(24, 23)
+# Initialize it (setup GPIOs, interrupts).
+radiationWatch.setup()
+# Do something with the lib.
+print(radiationWatch.status())
+# Do not forget to properly close it (free GPIOs, etc.).
+radiationWatch.close()
+```
+
+## Getting readings
 
 To get readings, call the `status()` method:
 
@@ -57,7 +80,7 @@ print(radiationWatch.status())
 
 Then do whatever you need with the results. For exemple, [log them to a terminal](https://github.com/MonsieurV/PiPocketGeiger/blob/master/examples/console_logger.py) or [write them on a file](https://github.com/MonsieurV/PiPocketGeiger/blob/master/examples/file_logger.py).
 
-### React on radiation hits
+## React on radiation hits
 
 The library allows to register callbacks that will be called in case of radiation or noise detection, using respectively the `registerRadiationCallback()` or `registerNoiseCallback()`:
 
@@ -75,7 +98,7 @@ with RadiationWatch(24, 23) as radiationWatch:
 
 This can be used to simulate the typical [Geiger counter click sound](https://github.com/MonsieurV/PiPocketGeiger/blob/master/examples/geiger_click.py) or as a random generator.
 
-### Stream in real-time on Plotly
+## Stream in real-time on Plotly
 
 As a more ellaborate idea, you can stream the data directly to Plotly, allowing to sharing it easily. See the [complete exemple](https://github.com/MonsieurV/PiPocketGeiger/blob/master/examples/plotly_streaming.py).
 
@@ -87,7 +110,7 @@ Finally if you want to contribute to an open-data initiative you can [publish yo
 
 Yes, with a Raspberry Pi, Python and an internet access, there's not so much limits to what you can pretend!
 
-## Note
+# Note on Noise
 
 Remember the Pocket Geiger can't record correctly in presence of vibration. For a more precise and mobile oriented unit, you may look at the [bGeigie Nano](http://blog.safecast.org/bgeigie-nano/) from the Safecast project.
 

@@ -20,13 +20,14 @@ Usage
 
 See GitHub repository for complete documentation.
 """
+import sys
 import re
 import ast
 from setuptools import setup
 
 setup(
     name='PiPocketGeiger',
-    version='0.2',
+    version='0.3',
     url='https://github.com/MonsieurV/PiPocketGeiger',
     license='MIT',
     author='Yoan Tournade',

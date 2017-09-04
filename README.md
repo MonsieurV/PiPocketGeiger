@@ -1,5 +1,7 @@
 # Raspberry Pi Pocket Geiger library
 
+[![Build Status](https://travis-ci.org/MonsieurV/PiPocketGeiger.svg?branch=master)](https://travis-ci.org/MonsieurV/PiPocketGeiger)
+
 A Raspberry Pi library to interface with the [Radiation Watch Pocket Geiger counter](http://www.radiation-watch.co.uk/) (Type 5).
 
 ![](/misc/type5.jpg?raw=true "Radiation Watch Type 5 Pocket Geiger counter")

@@ -8,5 +8,5 @@ venv/dev/bin/activate: setup.py
 install-dev: venv/dev
 
 lint:
-	venv/bin/flake8 PiPocketGeiger
-	venv/bin/pylint PiPocketGeiger
+	venv/bin/flake8 PiPocketGeiger examples
+	venv/bin/pylint PiPocketGeiger examples/*.py

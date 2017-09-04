@@ -23,8 +23,11 @@ from oauth2client.client import SignedJwtAssertionCredentials
 # Google Docs account credentials.
 keys = json.load(open('gdocs-credentials-file.json'))
 scope = ['https://spreadsheets.google.com/feeds']
-credentials = SignedJwtAssertionCredentials(keys['client_email'],
-    keys['private_key'].encode(), scope)
+credentials = SignedJwtAssertionCredentials(
+    keys['client_email'],
+    keys['private_key'].encode(),
+    scope
+)
 GDOCS_SPREADSHEET_NAME = 'Radiation_Spreadsheet'
 
 # Period for logging readings to Google Dosc, in seconds.

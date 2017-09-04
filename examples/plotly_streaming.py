@@ -14,7 +14,6 @@ from PiPocketGeiger import RadiationWatch
 import time
 import datetime
 import plotly.plotly as py
-import plotly.tools as tls
 from plotly.graph_objs import Scatter, Data, Stream, Figure, Layout
 
 # Plotly credentials.

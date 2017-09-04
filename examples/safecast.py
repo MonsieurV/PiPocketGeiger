@@ -38,13 +38,16 @@ LOGGING_PERIOD = 5
 
 if __name__ == "__main__":
     print("Logging each {0} minutes.".format(LOGGING_PERIOD))
-    safecast = SafecastPy.SafecastPy(api_key=API_KEY, api_url=SAFECAST_INSTANCE)
-    # Declare the Device used. If it already exists the API will just ignore it.
+    safecast = SafecastPy.SafecastPy(
+        api_key=API_KEY, api_url=SAFECAST_INSTANCE
+    )
+    # Declare the Device used. If it already exists the API will just
+    # ignore it.
     device_id = safecast.add_device(json={
-	    'manufacturer': 'Radiation Watch',
-	    'model': 'Pocket Geiger Type 5',
-	    'sensor': 'FirstSensor X100-7 SMD'
-	}).get('id')
+        'manufacturer': 'Radiation Watch',
+        'model': 'Pocket Geiger Type 5',
+        'sensor': 'FirstSensor X100-7 SMD'
+    }).get('id')
     with RadiationWatch(24, 23) as radiationWatch:
         while 1:
             # Sleep first so we can sample enough data to stabilize results.
@@ -57,7 +60,8 @@ if __name__ == "__main__":
                     'longitude': MY_LOCATION['longitude'],
                     'value': readings['uSvh'],
                     'unit': SafecastPy.UNIT_USV,
-                    'captured_at': datetime.datetime.utcnow().isoformat() + '+00:00',
+                    'captured_at': datetime.datetime.utcnow().isoformat()
+                    + '+00:00',
                     'device_id': device_id,
                 }
                 if MY_LOCATION_NAME:

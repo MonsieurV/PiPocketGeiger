@@ -7,8 +7,8 @@ Released under MIT License. See LICENSE file.
 
 By Yoan Tournade <yoan@ytotech.com>
 """
-from PiPocketGeiger import RadiationWatch
 import time
+from PiPocketGeiger import RadiationWatch
 
 if __name__ == "__main__":
     # Create the RadiationWatch object, specifying the used GPIO pins ...

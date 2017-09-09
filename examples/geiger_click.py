@@ -22,7 +22,7 @@ if __name__ == "__main__":
 
     with RadiationWatch(24, 23) as radiationWatch:
         print("Waiting for gamma rays to hit the Pocket Geiger.")
-        radiationWatch.registerRadiationCallback(onRadiation)
+        radiationWatch.register_radiation_callback(onRadiation)
         while 1:
             # Do not keep the CPU busy for nothing: sleep.
             time.sleep(30)

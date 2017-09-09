@@ -84,7 +84,7 @@ Then do whatever you need with the results. For exemple, [log them to a terminal
 
 ## React on radiation hits
 
-The library allows to register callbacks that will be called in case of radiation or noise detection, using respectively the `registerRadiationCallback()` or `registerNoiseCallback()`:
+The library allows to register callbacks that will be called in case of radiation or noise detection, using respectively the `register_radiation_callback()` or `register_noise_callback()`:
 
 ```
 def onRadiation():
@@ -92,8 +92,8 @@ def onRadiation():
 def onNoise():
     print("Vibration! Stop moving!")
 with RadiationWatch(24, 23) as radiationWatch:
-   radiationWatch.registerRadiationCallback(onRadiation)
-   radiationWatch.registerNoiseCallback(onNoise)
+   radiationWatch.register_radiation_callback(onRadiation)
+   radiationWatch.register_noise_callback(onNoise)
    while 1:
        time.sleep(1)
 ```

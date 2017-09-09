@@ -9,4 +9,4 @@ install-dev: venv/dev
 
 lint:
 	venv/bin/flake8 PiPocketGeiger examples
-	venv/bin/pylint PiPocketGeiger examples/*.py
+	venv/bin/pylint PiPocketGeiger

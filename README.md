@@ -14,13 +14,19 @@ Learn more about the Pocket Geiger counter on the Radiation Watch [FAQ](http://w
 
 ## Install the library
 
-Using pip:
+[PiPocketGeiger on Pypi](https://pypi.python.org/pypi/PiPocketGeiger/).
+
+### Python 2
 
 ```
 sudo pip install PiPocketGeiger
 ```
 
-[PiPocketGeiger on Pypi](https://pypi.python.org/pypi/PiPocketGeiger/).
+### Python 3
+
+```
+sudo pip3 install PiPocketGeiger
+```
 
 ## Wiring
 

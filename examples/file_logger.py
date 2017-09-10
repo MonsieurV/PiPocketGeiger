@@ -16,7 +16,9 @@ FILENAME = "radiation.csv"
 LOGGING_PERIOD = 30
 
 if __name__ == "__main__":
-    with RadiationWatch(24, 23) as radiationWatch:
+    try:
+        radiationWatch = RadiationWatch(24, 23)
+        radiationWatch.setup()
         print("Logging to the file {0} each {1} seconds.".format(
             FILENAME, LOGGING_PERIOD))
         with open(FILENAME, 'w') as myfile:
@@ -34,3 +36,5 @@ if __name__ == "__main__":
                     readings['uSvhError']])
                 time.sleep(LOGGING_PERIOD)
                 myfile.flush()
+    finally:
+        radiationWatch.close()

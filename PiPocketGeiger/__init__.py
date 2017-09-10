@@ -18,11 +18,11 @@ __all__ = ['RadiationWatch']
 
 # Number of cells of the history array.
 HISTORY_LENGTH = 200
-# Duration of each history array cell, in seconds.
-HISTORY_CELL_DURATION = 6
-# Process period for the statistics, in milliseconds.
+# Duration of each history array cell (seconds).
+HISTORY_UNIT = 6
+# Process period for the statistics (milliseconds).
 PROCESS_PERIOD = 160
-MAX_CPM_TIME = HISTORY_LENGTH * HISTORY_CELL_DURATION * 1000
+MAX_CPM_TIME = HISTORY_LENGTH * HISTORY_UNIT * 1000
 # Magic calibration number from the Arduino lib.
 K_ALPHA = 53.032
 
@@ -62,14 +62,14 @@ class RadiationWatch(object):
             uSvh -- the radiation dose, exprimed in Sievert per house (uSv/h);
             uSvhError -- the incertitude for the radiation dose."""
         minutes = min(self.duration, MAX_CPM_TIME) / 1000 / 60.0
-        cpm = self.cpm / minutes if minutes > 0 else 0
+        cpm = self.count / minutes if minutes > 0 else 0
         return dict(
             duration=round(self.duration / 1000.0, 2),
             cpm=round(cpm, 2),
             uSvh=round(cpm / K_ALPHA, 3),
-            uSvhError=round(math.sqrt(self.cpm) / minutes / K_ALPHA, 3)
+            uSvhError=round(math.sqrt(self.count) / minutes / K_ALPHA, 3)
             if minutes > 0 else 0
-            )
+        )
 
     def register_radiation_callback(self, callback):
         """Register a function that will be called on radiation occurrence. """
@@ -91,12 +91,14 @@ class RadiationWatch(object):
         # Initialize the statistics variables.
         self.radiation_count = 0
         self.noise_count = 0
-        self.cpm = 0
-        self.cpm_history = [0] * HISTORY_LENGTH
+        self.count = 0
+        # Initialize count_history[].
+        self.count_history = [0] * HISTORY_LENGTH
         self.history_index = 0
-        self.last_time = millis()
+        # Init measurement time.
+        self.previous_time = millis()
+        self.previous_history_time = millis()
         self.duration = 0
-        self.last_shift = None
         # Init the GPIO context.
         GPIO.setup(self.radiation_pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
         GPIO.setup(self.noise_pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
@@ -142,27 +144,28 @@ class RadiationWatch(object):
     def _process_statistics(self):
         with self.mutex:
             current_time = millis()
-            if self.noise_count == 0:
-                duration_seconds = int(self.duration / 1000)
-                if duration_seconds % HISTORY_CELL_DURATION == 0 \
-                        and self.last_shift != duration_seconds:
-                    # Shift a cell in the history array each
-                    # HISTORY_CELL_DURATION.
-                    self.last_shift = duration_seconds
-                    self.history_index += 1
-                    if self.history_index >= HISTORY_LENGTH:
-                        self.history_index = 0
-                    if self.cpm and self.cpm_history[self.history_index] > 0:
-                        self.cpm -= self.cpm_history[self.history_index]
-                    self.cpm_history[self.history_index] = 0
-                self.cpm_history[self.history_index] += self.radiation_count
-                self.cpm += self.radiation_count
-                self.duration += abs(current_time - self.last_time)
-            self.last_time = millis()
+            current_radiation_count = self.radiation_count
+            current_noise_count = self.noise_count
             self.radiation_count = 0
             self.noise_count = 0
-            if self.timer:
-                self._enable_timer()
+        if current_noise_count == 0:
+            # Store count log.
+            self.count_history[self.history_index] += current_radiation_count
+            # Add number of counts.
+            self.count += current_radiation_count
+            # Add ellapsed time to history duration.
+            self.duration += abs(current_time - self.previous_time)
+        # Shift an array for counting log for each HISTORY_UNIT seconds.
+        if current_time - self.previous_history_time >= HISTORY_UNIT * 1000:
+            self.previous_history_time += HISTORY_UNIT * 1000
+            self.history_index = (self.history_index + 1) % HISTORY_LENGTH
+            self.count -= self.count_history[self.history_index]
+            self.count_history[self.history_index] = 0
+        # Save time of current process period.
+        self.previous_time = millis()
+        # Enable the timer again.
+        if self.timer:
+            self._enable_timer()
 
 
 if __name__ == "__main__":

@@ -1,5 +1,5 @@
 install-dev:
-	pipenv install
+	pipenv install --dev
 
 lint:
 	pipenv run flake8 PiPocketGeiger examples

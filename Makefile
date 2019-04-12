@@ -6,7 +6,7 @@ lint:
 	pipenv run pylint PiPocketGeiger
 
 format:
-	pipenv run black PiPocketGeiger examples
+	pipenv run black PiPocketGeiger examples setup.py
 
 release:
 	pipenv run python setup.py sdist

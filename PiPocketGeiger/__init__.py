@@ -33,7 +33,7 @@ def millis():
     return int(round(time.time() * 1000))
 
 
-class RadiationWatch(object):
+class RadiationWatch():
     """Driver object for the Pocket Geiger Type 5 connected on Raspberry Pi GPIOs.
 
     Usage:

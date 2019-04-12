@@ -1,40 +1,23 @@
-"""
-==============
-PiPocketGeiger
-==============
-
-Radiation Watch Pocket Geiger Type 5 library for Raspberry Pi.
-
-Usage
-=====
-::
-
-    from PiPocketGeiger import RadiationWatch
-    import time
-
-    with RadiationWatch(24, 23) as radiationWatch:
-        while 1:
-            print(radiationWatch.status())
-            time.sleep(5)
-
-
-See GitHub repository for complete documentation.
-"""
 import sys
 import re
 import ast
 from setuptools import setup
 
+readme_markdown = None
+with open("README.md") as f:
+    readme_markdown = f.read()
+
 setup(
     name="PiPocketGeiger",
-    version="0.3",
+    version="0.3.1",
     url="https://github.com/MonsieurV/PiPocketGeiger",
     license="MIT",
     author="Yoan Tournade",
     author_email="yoan@ytotech.com",
     description="A library for monitoring radiation with the Radiation Watch "
     "Pocket Geiger.",
-    long_description=__doc__,
+    long_description=readme_markdown,
+    long_description_content_type='text/markdown',
     packages=["PiPocketGeiger"],
     include_package_data=True,
     zip_safe=True,

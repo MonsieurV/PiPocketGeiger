@@ -1,17 +1,14 @@
-venv/dev: venv/dev/bin/activate
-
-venv/dev/bin/activate: setup.py
-	test -d venv || virtualenv venv
-	venv/bin/pip install -e .[dev]
-	touch venv/bin/activate
-
-install-dev: venv/dev
+install-dev:
+	pipenv install
 
 lint:
-	venv/bin/flake8 PiPocketGeiger examples
-	venv/bin/pylint PiPocketGeiger
+	pipenv run flake8 PiPocketGeiger examples
+	pipenv run pylint PiPocketGeiger
+
+format:
+	pipenv run black PiPocketGeiger examples
 
 release:
-	python setup.py sdist
-	python setup.py bdist_wheel --universal
-	twine upload dist/*
+	pipenv run python setup.py sdist
+	pipenv run python setup.py bdist_wheel --universal
+	pipenv run twine upload dist/*

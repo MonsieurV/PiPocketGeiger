@@ -21,21 +21,22 @@ import json
 from oauth2client.client import SignedJwtAssertionCredentials
 
 # Google Docs account credentials.
-keys = json.load(open('gdocs-credentials-file.json'))
-scope = ['https://spreadsheets.google.com/feeds']
+keys = json.load(open("gdocs-credentials-file.json"))
+scope = ["https://spreadsheets.google.com/feeds"]
 credentials = SignedJwtAssertionCredentials(
-    keys['client_email'],
-    keys['private_key'].encode(),
-    scope
+    keys["client_email"], keys["private_key"].encode(), scope
 )
-GDOCS_SPREADSHEET_NAME = 'Radiation_Spreadsheet'
+GDOCS_SPREADSHEET_NAME = "Radiation_Spreadsheet"
 
 # Period for logging readings to Google Dosc, in seconds.
 LOGGING_PERIOD = 120
 
 if __name__ == "__main__":
-    print("Logging to Google Docs {0} each {1} seconds.".format(
-        GDOCS_SPREADSHEET_NAME, LOGGING_PERIOD))
+    print(
+        "Logging to Google Docs {0} each {1} seconds.".format(
+            GDOCS_SPREADSHEET_NAME, LOGGING_PERIOD
+        )
+    )
     with RadiationWatch(24, 23) as radiationWatch:
         while 1:
             time.sleep(LOGGING_PERIOD)
@@ -43,12 +44,14 @@ if __name__ == "__main__":
                 readings = radiationWatch.status()
                 print("Uploading... {0}.".format(readings))
                 gspread.authorize(credentials).open(
-                    GDOCS_SPREADSHEET_NAME).sheet1.append_row(
-                        datetime.datetime.now().strftime('%d/%m/%Y %H:%M:00'),
-                        readings['duration'],
-                        readings['cpm'],
-                        readings['uSvh'],
-                        readings['uSvhError'])
+                    GDOCS_SPREADSHEET_NAME
+                ).sheet1.append_row(
+                    datetime.datetime.now().strftime("%d/%m/%Y %H:%M:00"),
+                    readings["duration"],
+                    readings["cpm"],
+                    readings["uSvh"],
+                    readings["uSvhError"],
+                )
                 print("Ok.")
             except Exception as e:
                 print(e)

@@ -15,10 +15,11 @@ import subprocess
 import time
 
 if __name__ == "__main__":
+
     def onRadiation():
         print("Ray appeared!")
         # Play a classic geiger click sound.
-        subprocess.Popen(['aplay', 'click.wav'])
+        subprocess.Popen(["aplay", "click.wav"])
 
     with RadiationWatch(24, 23) as radiationWatch:
         print("Waiting for gamma rays to hit the Pocket Geiger.")

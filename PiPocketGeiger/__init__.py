@@ -14,7 +14,8 @@ import threading
 import math
 import time
 import RPi.GPIO as GPIO
-__all__ = ['RadiationWatch']
+
+__all__ = ["RadiationWatch"]
 
 # Number of cells of the history array.
 HISTORY_LENGTH = 200
@@ -33,7 +34,7 @@ def millis():
     return int(round(time.time() * 1000))
 
 
-class RadiationWatch():
+class RadiationWatch:
     """Driver object for the Pocket Geiger Type 5 connected on Raspberry Pi GPIOs.
 
     Usage:
@@ -43,6 +44,7 @@ class RadiationWatch():
         print(radiationWatch.status())
     ```
     """
+
     def __init__(self, radiation_pin, noise_pin, numbering=GPIO.BCM):
         """Initialize the Radiation Watch library, specifying the pin numbers
         for the radiation and noise pin.
@@ -68,7 +70,8 @@ class RadiationWatch():
             cpm=round(cpm, 2),
             uSvh=round(cpm / K_ALPHA, 3),
             uSvhError=round(math.sqrt(self.count) / minutes / K_ALPHA, 3)
-            if minutes > 0 else 0
+            if minutes > 0
+            else 0,
         )
 
     def register_radiation_callback(self, callback):
@@ -104,15 +107,9 @@ class RadiationWatch():
         GPIO.setup(self.noise_pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
         # Register local callbacks.
         GPIO.add_event_detect(
-            self.radiation_pin,
-            GPIO.FALLING,
-            callback=self._on_radiation
+            self.radiation_pin, GPIO.FALLING, callback=self._on_radiation
         )
-        GPIO.add_event_detect(
-            self.noise_pin,
-            GPIO.FALLING,
-            callback=self._on_noise
-        )
+        GPIO.add_event_detect(self.noise_pin, GPIO.FALLING, callback=self._on_noise)
         # Enable the timer for processing the statistics periodically.
         self._enable_timer()
         return self
@@ -137,8 +134,7 @@ class RadiationWatch():
             self.noise_callback()
 
     def _enable_timer(self):
-        self.timer = threading.Timer(
-            PROCESS_PERIOD / 1000.0, self._process_statistics)
+        self.timer = threading.Timer(PROCESS_PERIOD / 1000.0, self._process_statistics)
         self.timer.start()
 
     def _process_statistics(self):
@@ -169,6 +165,7 @@ class RadiationWatch():
 
 
 if __name__ == "__main__":
+
     def on_radiation():
         """Test radiation event handler"""
         print("Ray appeared!")

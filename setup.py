@@ -17,7 +17,7 @@ setup(
     description="A library for monitoring radiation with the Radiation Watch "
     "Pocket Geiger.",
     long_description=readme_markdown,
-    long_description_content_type='text/markdown',
+    long_description_content_type="text/markdown",
     packages=["PiPocketGeiger"],
     include_package_data=True,
     zip_safe=True,

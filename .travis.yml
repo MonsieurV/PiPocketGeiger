@@ -1,11 +1,10 @@
 language: python
 # Versions on https://docs.travis-ci.com/user/languages/python/
 python:
-    - "3.5"
     - "3.6"
     - "3.7"
     - "3.7-dev"
-    - "3.8-dev"
+    # - "3.8-dev"
 
 # Command to install dependencies.
 install:

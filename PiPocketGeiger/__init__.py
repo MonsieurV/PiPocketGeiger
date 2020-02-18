@@ -9,6 +9,9 @@ Released under MIT License. See LICENSE file.
 Contributed by:
 - Radiation-watch.org <http://www.radiation-watch.org/>
 - Yoan Tournade <yoan@ytotech.com>
+
+Source for wiring and pin readings:
+https://cdn.sparkfun.com/assets/learn_tutorials/1/4/3/GeigerCounterType5_connect_with_microcomputer.pdf
 """
 import threading
 import math
@@ -114,8 +117,8 @@ class RadiationWatch:
         # Raw data of Noise Pulse: Not-detected -> Low, Detected -> High.
         GPIO.setup(self.noise_pin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
         # Register local callbacks.
-        # As the signal from the radiation pin is high by default and low when a ray hit the sensor,
-        # we want to listen on the edges falls.
+        # As the signal from the radiation pin is high by default
+        # and low when a ray hit the sensor, we want to listen on the edges falls.
         GPIO.add_event_detect(
             self.radiation_pin,
             GPIO.FALLING,

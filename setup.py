@@ -9,7 +9,7 @@ with open("README.md") as f:
 
 setup(
     name="PiPocketGeiger",
-    version="0.3.1",
+    version="0.4.0",
     url="https://github.com/MonsieurV/PiPocketGeiger",
     license="MIT",
     author="Yoan Tournade",

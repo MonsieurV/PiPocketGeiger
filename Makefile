@@ -13,3 +13,6 @@ release:
 	pipenv run python setup.py bdist_wheel --universal
 	pipenv run twine check dist/*
 	pipenv run twine upload dist/*
+
+install-package-local:
+	pipenv run python setup.py install

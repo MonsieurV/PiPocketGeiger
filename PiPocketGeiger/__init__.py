@@ -27,6 +27,12 @@ MAX_CPM_TIME = HISTORY_LENGTH * HISTORY_UNIT * 1000
 # Magic calibration number from the Arduino lib.
 K_ALPHA = 53.032
 
+# Bounce delay during which we ignore further edges after an edge.
+# In ms.
+# See https://sourceforge.net/p/raspberry-gpio-python/wiki/Inputs/
+# We disable it, as we have no bouncing issues.
+BOUNCE_DELAY = 0
+
 
 def millis():
     """Return current time in milliseconds.
@@ -103,13 +109,27 @@ class RadiationWatch:
         self.previous_history_time = millis()
         self.duration = 0
         # Init the GPIO context.
+        # Raw data of Radiation Pulse: Not-detected -> High, Detected -> Low.
         GPIO.setup(self.radiation_pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-        GPIO.setup(self.noise_pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+        # Raw data of Noise Pulse: Not-detected -> Low, Detected -> High.
+        GPIO.setup(self.noise_pin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
         # Register local callbacks.
+        # As the signal from the radiation pin is high by default and low when a ray hit the sensor,
+        # we want to listen on the edges falls.
         GPIO.add_event_detect(
-            self.radiation_pin, GPIO.FALLING, callback=self._on_radiation
+            self.radiation_pin,
+            GPIO.FALLING,
+            callback=self._on_radiation,
+            bouncetime=BOUNCE_DELAY,
         )
-        GPIO.add_event_detect(self.noise_pin, GPIO.FALLING, callback=self._on_noise)
+        # As the signal from the noise pin is low by default and high when noise occurs,
+        # we want to listen on the edges rises.
+        GPIO.add_event_detect(
+            self.noise_pin,
+            GPIO.RISING,
+            callback=self._on_noise,
+            bouncetime=BOUNCE_DELAY,
+        )
         # Enable the timer for processing the statistics periodically.
         self._enable_timer()
         return self
@@ -117,7 +137,8 @@ class RadiationWatch:
     def close(self):
         """Properly close the resources associated with the driver
         (GPIOs and so on)."""
-        GPIO.cleanup()
+        # Clean up only used channels.
+        GPIO.cleanup([self.radiation_pin, self.noise_pin])
         with self.mutex:
             self.timer.cancel()
 

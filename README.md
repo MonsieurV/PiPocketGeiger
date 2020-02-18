@@ -19,12 +19,18 @@ Learn more about the Pocket Geiger counter on the Radiation Watch [FAQ](http://w
 ### Python 2
 
 ```
+# Ensure RPi.GPIO library is installed.
+# Instruction here for Raspbian. See https://sourceforge.net/p/raspberry-gpio-python/wiki/install/
+sudo apt-get install python-rpi.gpio
 sudo pip install PiPocketGeiger
 ```
 
 ### Python 3
 
 ```
+# Ensure RPi.GPIO library is installed.
+# Instruction here for Raspbian. See https://sourceforge.net/p/raspberry-gpio-python/wiki/install/
+sudo apt-get install python3-rpi.gpio
 sudo pip3 install PiPocketGeiger
 ```
 

@@ -10,6 +10,7 @@ By Yoan Tournade <y@yoantournade.com>
 import time
 from PiPocketGeiger import RadiationWatch
 
+
 def example_run_context():
     example_run_context.hit_flag = False
 
@@ -31,6 +32,7 @@ def example_run_context():
                 print(radiation_watch.status())
                 example_run_context.hit_flag = False
             time.sleep(3)
+
 
 if __name__ == "__main__":
     example_run_context()

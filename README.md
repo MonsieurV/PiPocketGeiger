@@ -47,7 +47,11 @@ For exemple you can wire the radiation and the noise pin on respectively the `GP
 | `SIG` | `GPIO24` | Radiation-detection pulse pin |
 | `NS` | `GPIO23` | Noise-detection pulse pin |
 
-![](/misc/wiring.png?raw=true "Wiring of the Pocket Geiger and Raspberry Pi B+")
+![](/misc/PocketGeigerType5_wiring_RPi3.png?raw=true "Schematic of the wiring to a Raspberry Pi 3 board")
+
+![](/misc/photo_setup_rpib.jpg?raw=true "Wiring of the Pocket Geiger and Raspberry Pi B+")
+
+
 
 The pin used are specified at the creation of the library object:
 

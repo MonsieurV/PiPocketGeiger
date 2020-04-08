@@ -34,7 +34,7 @@ K_ALPHA = 53.032
 # In ms.
 # See https://sourceforge.net/p/raspberry-gpio-python/wiki/Inputs/
 # We disable it, as we have no bouncing issues.
-BOUNCE_DELAY = 0
+BOUNCE_DELAY = None
 
 
 def millis():
@@ -123,7 +123,7 @@ class RadiationWatch:
             self.radiation_pin,
             GPIO.FALLING,
             callback=self._on_radiation,
-            bouncetime=BOUNCE_DELAY,
+            **{"bouncetime": BOUNCE_DELAY} if BOUNCE_DELAY else {},
         )
         # As the signal from the noise pin is low by default and high when noise occurs,
         # we want to listen on the edges rises.
@@ -131,7 +131,7 @@ class RadiationWatch:
             self.noise_pin,
             GPIO.RISING,
             callback=self._on_noise,
-            bouncetime=BOUNCE_DELAY,
+            **{"bouncetime": BOUNCE_DELAY} if BOUNCE_DELAY else {},
         )
         # Enable the timer for processing the statistics periodically.
         self._enable_timer()

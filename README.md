@@ -64,6 +64,8 @@ Even if the Pocket Geiger can handle voltage between 3V and 9V, the [RPi GPIO](h
 
 [Pocket Geiger Type 5 interface specification](http://www.radiation-watch.co.uk/uploads/5t.pdf).
 
+Look at the [buildlogs folder](/buildlogs/README.md) for examples and more step by step instructions.
+
 ## Initialize the library
 
 You can either use the `with` statement to initialize an instance of the library. It will automatically bootstrap the instance and properly close it when existing the `with` block.

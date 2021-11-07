@@ -1,4 +1,6 @@
-# Create a C library based on wiring PI
+# Low-level library
+
+## Create a C library based on wiring PI
 
 The library should be the most "bare" possible: running as a process
 to process measurements and allowing to dispatch signals to external
@@ -20,8 +22,13 @@ https://github.com/MonsieurV/ArduinoPocketGeiger
 Then we could reconstruct the current Python library based on this C lib
 (as a wrapper or user).
 
-# Add instructions to enable RT capabilities on Raspbian
+## Go core
 
+Alternative: code the core library in Go.
+
+https://gist.github.com/simoncos/49463a8b781d63b5fb8a3b666e566bb5
+
+# Add instructions to enable RT capabilities on Raspbian
 
 RT_PREEMPT
 https://raspberrypi.stackexchange.com/a/1820/87271

@@ -12,6 +12,7 @@ flake8 = "*"
 pylint = "*"
 twine = "*"
 urllib3 = ">=1.24.2"
+setuptools = "*"
 
 [requires]
 python_version = "3"

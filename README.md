@@ -16,22 +16,23 @@ Learn more about the Pocket Geiger counter on the Radiation Watch [FAQ](http://w
 
 [PiPocketGeiger on Pypi](https://pypi.python.org/pypi/PiPocketGeiger/).
 
-### Python 2
+Follows instructions to install [ligpio](http://abyz.me.uk/lg/download.html):
+
+```sh
+sudo apt install swig python3-dev python3-setuptools
+cd /tmp
+wget http://abyz.me.uk/lg/lg.zip
+unzip lg.zip
+cd lg
+make
+sudo make install
+rm -rf /tmp/lg.zip /tmp/lg
+```
 
 ```
 # Ensure RPi.GPIO library is installed.
-# Instruction here for Raspbian. See https://sourceforge.net/p/raspberry-gpio-python/wiki/install/
-sudo apt-get install python-rpi.gpio
-sudo pip install PiPocketGeiger
-```
-
-### Python 3
-
-```
-# Ensure RPi.GPIO library is installed.
-# Instruction here for Raspbian. See https://sourceforge.net/p/raspberry-gpio-python/wiki/install/
-sudo apt-get install python3-rpi.gpio
-sudo pip3 install PiPocketGeiger
+sudo apt-get install python3-rpi-lgpio swig gpiod libgpiod-dev
+pip install --user --break-system-packages PiPocketGeiger
 ```
 
 ## Wiring
@@ -65,6 +66,12 @@ Even if the Pocket Geiger can handle voltage between 3V and 9V, the [RPi GPIO](h
 [Pocket Geiger Type 5 interface specification](http://www.radiation-watch.co.uk/uploads/5t.pdf).
 
 Look at the [buildlogs folder](/buildlogs/README.md) for examples and more step by step instructions.
+
+## Run an example
+
+```sh
+python examples/console_logger_signals.py
+```
 
 ## Initialize the library
 

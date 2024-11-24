@@ -1,3 +1,10 @@
+# GPIO Python library
+
+Migrate to [gpiozero](https://gpiozero.readthedocs.io/en/latest/installing.html)
+https://gpiozero.readthedocs.io/en/stable/migrating_from_rpigpio.html
+
+(Much easier installation?)
+
 # Low-level library
 
 ## Create a C library based on wiring PI
@@ -13,8 +20,6 @@ http://wiringpi.com/reference/priority-interrupts-and-threads/
 https://elinux.org/RPi_Low-level_peripherals
 
 Or also pigpio https://github.com/joan2937/pigpio
-
-Alternative, see C code from RPi.GPIO http://hg.code.sf.net/p/raspberry-gpio-python/code/file/314568df26f8/source/py_gpio.c
 
 We can start from the refined C++ code from the Arduino library
 https://github.com/MonsieurV/ArduinoPocketGeiger

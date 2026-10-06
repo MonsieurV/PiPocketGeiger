@@ -11,7 +11,7 @@ black = "*"
 flake8 = "*"
 pylint = "*"
 twine = "*"
-urllib3 = ">=2.7.0"
+urllib3 = ">=2.8.0"
 setuptools = "*"
 
 [requires]
